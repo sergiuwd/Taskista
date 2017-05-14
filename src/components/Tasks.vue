@@ -218,9 +218,7 @@ export default {
       })
     },
     onMoveCallback (evt, originalEvent) {
-      var self = this
-      self.$root.lists[self.id] = self.list
-      LocalStorage.set('lists', self.$root.lists)
+      this.updateRoot()
     }
   }
 }

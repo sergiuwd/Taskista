@@ -47,8 +47,12 @@
 
 <script>
 import { Dialog, Toast, LocalStorage, Utils } from 'quasar'
+import draggable from 'vuedraggable'
 
 export default {
+  components: {
+    draggable
+  },
   data () {
     return {
 

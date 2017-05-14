@@ -17,21 +17,25 @@
 
       <div class="container">
 
-        <div class="task-container" v-for="task in list.tasks" v-if="task.done == false">
-          <div class="task-inner">
-            <div class="row small-gutter">
-              <div class="checkbox-cont">
-                <q-checkbox class="positive" v-model="task.done" v-on:click.native="updateRoot"></q-checkbox>
-              </div>
-              <div class="title-cont auto" v-bind:class="{taskDone: task.done}">
-                {{ task.title }}
-              </div>
-              <div class="remove-cont width-1of5" @click="removeTask(task)">
-                <i>delete_forever</i>
+        <h3 class="list-title">{{ list.name }}</h3>
+
+        <draggable v-model="list.tasks" @end="onMoveCallback">
+          <div class="task-container" v-for="task in list.tasks" v-if="task.done == false">
+            <div class="task-inner">
+              <div class="row small-gutter">
+                <div class="checkbox-cont">
+                  <q-checkbox class="positive" v-model="task.done" v-on:click.native="updateRoot"></q-checkbox>
+                </div>
+                <div class="title-cont auto" v-bind:class="{taskDone: task.done}">
+                  {{ task.title }}
+                </div>
+                <div class="remove-cont width-1of5" @click="removeTask(task)">
+                  <i>delete_forever</i>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </draggable>
 
         <div class="task-container" v-for="task in list.tasks" v-if="task.done">
           <div class="task-inner done">
@@ -62,10 +66,14 @@
 
 <script>
 import { Dialog, Toast, LocalStorage, ActionSheet } from 'quasar'
+import draggable from 'vuedraggable'
 export default {
   props: [
     'id'
   ],
+  components: {
+    draggable
+  },
   data () {
     return {
       list: {}
@@ -208,6 +216,11 @@ export default {
           }
         ]
       })
+    },
+    onMoveCallback (evt, originalEvent) {
+      var self = this
+      self.$root.lists[self.id] = self.list
+      LocalStorage.set('lists', self.$root.lists)
     }
   }
 }
@@ -298,6 +311,13 @@ div {
 
 .done .remove-cont i {
   color: #FFF;
+}
+
+.list-title {
+  text-align: center;
+  font-size: 20px;
+  color: #dedddd;
+  margin: 10px;
 }
 
 </style>

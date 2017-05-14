@@ -55,11 +55,13 @@
 
       </div>
 
-      <button class="positive fixed-bottom-right generic-margin circular shadow-2" @click="addTask">
+      <!-- <button class="positive fixed-bottom-right generic-margin circular shadow-2" @click="showForm">
         <i style="font-weight: bold;">add</i>
-      </button>
+      </button> -->
 
     </div>
+
+    <TaskForm :list="list"></TaskForm>
 
   </q-layout>
 </template>
@@ -67,22 +69,31 @@
 <script>
 import { Dialog, Toast, LocalStorage, ActionSheet } from 'quasar'
 import draggable from 'vuedraggable'
+import TaskForm from 'components/TaskForm'
 export default {
   props: [
     'id'
   ],
   components: {
-    draggable
+    draggable,
+    TaskForm
   },
   data () {
     return {
-      list: {}
+      list: {},
+      displayForm: false
     }
   },
   created () {
     this.list = this.$root.lists[this.id]
   },
   methods: {
+    showForm () {
+      this.displayForm = true
+    },
+    closeForm () {
+      this.displayForm = false
+    },
     addTask () {
       var self = this
       Dialog.create({

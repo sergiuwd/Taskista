@@ -1,12 +1,12 @@
 <template>
   <q-layout>
 
-    <div slot="header" class="toolbar positive">
+    <div slot="header" class="toolbar white">
       <button v-link="{ path: '/' }">
         <i>keyboard_arrow_left</i>
       </button>
       <q-toolbar-title :padding="0" class="text-center">
-        <img src="statics/logo.png" style="width: 175px;">
+        {{ list.name }}
       </q-toolbar-title>
       <button @click="listActions()">
         <i>settings</i>
@@ -17,10 +17,8 @@
 
       <div class="container">
 
-        <h3 class="list-title">{{ list.name }}</h3>
-
-        <draggable v-model="list.tasks" @end="onMoveCallback">
-          <div class="task-container" v-for="task in list.tasks" v-if="task.done == false">
+        <draggable v-model="list.tasks" @end="onMoveCallback" v-if="list.tasks.length > 0">
+          <div v-bind:class="['task-container', {'done': task.done }]" class="task-container" v-for="task in list.tasks">
             <div class="task-inner">
               <div class="row small-gutter">
                 <div class="checkbox-cont">
@@ -37,20 +35,11 @@
           </div>
         </draggable>
 
-        <div class="task-container" v-for="task in list.tasks" v-if="task.done">
-          <div class="task-inner done">
-            <div class="row small-gutter">
-              <div class="checkbox-cont">
-                <q-checkbox class="positive" v-model="task.done" v-on:click.native="updateRoot"></q-checkbox>
-              </div>
-              <div class="title-cont auto" v-bind:class="{taskDone: task.done}">
-                {{ task.title }}
-              </div>
-              <div class="remove-cont width-1of5" @click="removeTask(task)">
-                <i>delete_forever</i>
-              </div>
-            </div>
-          </div>
+
+        <div v-else>
+          <p class="no-tasks">You have no tasks on this list!</p>
+          <p class="no-tasks-suggestion">Let's add some!</p>
+          <p class="no-tasks">Click the <span class="text-positive">+ (plus)</span> button on the bottom right corner and fill in the fields.</p>
         </div>
 
       </div>
@@ -239,23 +228,29 @@ div {
    user-select: none;
 }
 
-.container {
-  padding-top: 10px;
+.no-tasks {
+  color: #1d1d26;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.no-tasks-suggestion {
+  color: #1d1d26;
+  text-align: center;
+  font-weight: 600;
+  font-size: 25px;
 }
 
 .task-container {
-  width: 100%;
+  border-top: 1px solid #f3f3f4;
   box-sizing: border-box;
-  padding: 10px;
   padding-bottom: 5px;
   padding-top: 5px;
+  transition: .1s;
 }
 
 .task-inner {
-  -webkit-box-shadow: 0px 10px 31px -10px rgba(211,209,227,0.94);
-  -moz-box-shadow: 0px 10px 31px -10px rgba(211,209,227,0.94);
-  box-shadow: 0px 10px 31px -10px rgba(211,209,227,0.94);
-  background-color: #FFF;
   padding: 20px;
   padding-bottom: 10px;
   padding-top: 15px;
@@ -281,9 +276,8 @@ div {
   padding-left: 20px!important;
   display: table-cell;
   vertical-align: middle;
-  font-weight: bold;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 17px;
+  font-weight: 500;
+  font-size: 15px;
 }
 
 .remove-cont {
@@ -300,15 +294,9 @@ div {
 }
 
 .done {
-  background-color: #21ba45;
-}
-
-.done .title-cont {
-  color: #FFF;
-}
-
-.done .remove-cont i {
-  color: #FFF;
+  background-color: #f8f8f9;
+  border-left: 2px solid #21ba45;
+  transition: .1s
 }
 
 .list-title {

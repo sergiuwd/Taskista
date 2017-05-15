@@ -1,11 +1,16 @@
 <template>
   <q-layout>
 
-    <div slot="header" class="toolbar positive">
+    <div slot="header" class="toolbar white no-shadow">
       <q-toolbar-title :padding="0" class="text-center">
-        <img src="statics/logo.png" style="width: 175px;">
+        My Lists
       </q-toolbar-title>
     </div>
+    <q-tabs slot="navigation" class="white no-shadow nav">
+      <q-tab route="/asd" exact replace>Lists</q-tab>
+      <q-tab route="/layout/alarm" exact replace>All Tasks</q-tab>
+    </q-tabs>
+
 
     <div class="layout-view">
 
@@ -32,7 +37,7 @@
                 {{ list.name }}
               </div>
               <div class="todo-list-subtitle text-center">
-                {{ countActive(list) }} pending
+                {{ countActive(list) }} PENDING
               </div>
             </div>
           </router-link>
@@ -123,36 +128,43 @@ export default {
 }
 
 .container {
-  padding-top: 10px;
+  padding: 0px;
+}
+
+.layout-view {
+  overflow-x: hidden;
+}
+
+.nav {
+  color: #1d1d26!important;
+}
+
+.toolbar {
+  color: #1d1d26!important;
 }
 
 .todo-list-container {
   width: 50%;
   float: left;
   box-sizing: border-box;
-  padding: 10px;
 }
 
 .todo-list-inner {
   background-color: #FFF;
   padding: 5px;
   height: 180px;
-  border-radius: 4px;
   position: relative;
-  -webkit-box-shadow: 0px 10px 31px -10px rgba(211,209,227,0.94);
--moz-box-shadow: 0px 10px 31px -10px rgba(211,209,227,0.94);
-box-shadow: 0px 10px 31px -10px rgba(211,209,227,0.94);
+  border: 1px solid #f4f4f4;
 }
 
 .todo-list-title {
   width: 100%;
-  font-weight: bold;
-  font-family: 'Montserrat', sans-serif;
-  color: #47ca66;
+  font-size: 20px;
+  color: #1d1d26;
 }
 
 .todo-list-subtitle {
-  color: #c4c9d7;
+  color: #1d1d26;
   font-size: 12px;
   position: absolute;
   width: 100%;
@@ -163,17 +175,17 @@ box-shadow: 0px 10px 31px -10px rgba(211,209,227,0.94);
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background-color: #21ba45;
   margin: 0 auto;
   text-align: center;
   line-height: 70px;
   margin-top: 20px;
   margin-bottom: 20px;
+  border: 1px solid #f4f4f4;
 }
 
 .todo-list-icon-container i {
   font-size: 30px;
-  color: #FFF;
+  color: #21ba45;
 }
 
 .new-list {
